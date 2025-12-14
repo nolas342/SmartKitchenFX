@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="smk.client.ui.ClientTerminalController"
+            prefWidth="1220" prefHeight="760" stylesheets="@/css/smk.css"
+            styleClass="app-root">
+
+    <!-- Sidebar (clean) -->
+    <left>
+        <VBox spacing="14" BorderPane.alignment="TOP_LEFT" styleClass="sidebar">
+            <padding><Insets top="22" right="18" bottom="22" left="18"/></padding>
+
+            <Label text="SmartKitchen" styleClass="brand"/>
+            <Separator/>
+
+            <!-- (no nav icons/text) -->
+
+            <Pane VBox.vgrow="ALWAYS"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Circle radius="10" styleClass="status-dot-online"/>
+                <Label text="online" styleClass="status-label"/>
+            </HBox>
+            <Button text="Logout" styleClass="logout-btn"/>
+        </VBox>
+    </left>
+
+    <!-- Header -->
+    <top>
+  <HBox spacing="12" styleClass="topbar">
+    <padding><Insets top="14" right="18" bottom="14" left="18"/></padding>
+
+    <Label text="Client:"/>
+    <TextField fx:id="tfClient" promptText="client-1" prefWidth="180"/>
+
+    <Separator orientation="VERTICAL"/>
+    <Label text="Lamport:"/>
+    <Label fx:id="lblClock" styleClass="chip"/>
+
+    <Pane HBox.hgrow="ALWAYS"/>
+
+    <!-- Search: pill + icon + clear -->
+    <HBox spacing="8" alignment="CENTER_LEFT" styleClass="search-wrap">
+      <Label styleClass="search-icon" text="🔍"/>
+      <TextField fx:id="tfSearch" promptText="Search dishes..." styleClass="search-input" prefWidth="320"/>
+      <Button fx:id="btnClearSearch" text="✕" onAction="#onClearSearch" styleClass="clear-search"/>
+    </HBox>
+
+    <!-- Send order CTA -->
+    <Button fx:id="btnSendOrder" text="Send Order" onAction="#onSendOrder" styleClass="cta-primary">
+      <graphic>
+        <Label text="🛒"/>
+      </graphic>
+    </Button>
+  </HBox>
+</top>
+
+
+    <!-- Main -->
+    <center>
+        <SplitPane dividerPositions="0.60">
+            <items>
+                <!-- MENU COLUMN -->
+                <VBox spacing="10">
+                    <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+                    <fx:define>
+                        <ToggleGroup fx:id="filterGroup"/>
+                    </fx:define>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="Menu" styleClass="section"/>
+                        <Label fx:id="lblCount" styleClass="muted"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <ToggleButton fx:id="tgAll"     text="All"     selected="true"
+                                      styleClass="chip-toggle" toggleGroup="$filterGroup"/>
+                        <ToggleButton fx:id="tgVegan"   text="Vegan"
+                                      styleClass="chip-toggle" toggleGroup="$filterGroup"/>
+                        <ToggleButton fx:id="tgPopular" text="Popular"
+                                      styleClass="chip-toggle" toggleGroup="$filterGroup"/>
+                    </HBox>
+
+                    <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroller">
+                        <content>
+                            <FlowPane fx:id="menuFlow" hgap="18" vgap="18" prefWrapLength="720">
+                                <padding><Insets top="6" right="2" bottom="6" left="2"/></padding>
+                            </FlowPane>
+                        </content>
+                    </ScrollPane>
+                </VBox>
+
+                <!-- RIGHT COLUMN: CART + TOTALS + LOGS -->
+                <VBox spacing="14">
+                    <padding><Insets top="16" right="16" bottom="16" left="4"/></padding>
+
+                    <!-- CART (ListView of cards) -->
+                    <VBox spacing="10" styleClass="card">
+                        <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Cart" styleClass="section"/>
+                            <Label fx:id="lblItems" styleClass="muted"/>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Label text="Subtotal:" styleClass="muted"/>
+                            <Label fx:id="lblSubtotal" styleClass="total"/>
+                        </HBox>
+
+                        <ListView fx:id="cartList" prefHeight="310"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="Clear Cart" onAction="#onClearCart"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Totals + checkout -->
+                    <VBox spacing="10" styleClass="card">
+                        <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+
+                        <VBox spacing="8" styleClass="totals-box">
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label text="Tax (10%):" styleClass="muted"/>
+                                <Pane HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblTax" styleClass="muted"/>
+                            </HBox>
+                            <Separator/>
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label text="Total:" styleClass="section"/>
+                                <Pane HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblTotal" styleClass="grand-total"/>
+                            </HBox>
+                        </VBox>
+
+                        <HBox spacing="10" alignment="CENTER_RIGHT">
+  <Button fx:id="btnCheckout" text="Pay $0" onAction="#onCheckout" styleClass="cta-pay"/>
+</HBox>
+
+                    </VBox>
+
+                    <!-- Logs -->
+                    <VBox spacing="8" styleClass="card">
+                        <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Logs" styleClass="section"/>
+                            <Pane HBox.hgrow="ALWAYS"/>
+        
+                        </HBox>
+                        <TextArea fx:id="txtLogs" wrapText="true" prefRowCount="10"/>
+                    </VBox>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

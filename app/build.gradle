@@ -1,0 +1,32 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+repositories { mavenCentral() }
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
+}
+
+javafx {
+    version = "25"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+}
+
+test { useJUnitPlatform() }
+
+/**
+ * Let us choose the main class at runtime:
+ *   ./gradlew :app:run -PmainClass=smk.server.SmartKitchenServerApp
+ *   ./gradlew :app:run -PmainClass=smk.client.SmartKitchenClientApp
+ */
+application {
+    mainClass = (project.findProperty('mainClass') ?: 'smk.server.SmartKitchenServerApp')
+    applicationDefaultJvmArgs = ["--enable-native-access=javafx.graphics"]
+
+}

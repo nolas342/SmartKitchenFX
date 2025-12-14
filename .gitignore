@@ -1,0 +1,27 @@
+# === Gradle ===
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+.gradle-cache/
+
+# === IntelliJ / VSCode / Eclipse ===
+.idea/
+.vscode/
+*.iml
+*.classpath
+*.project
+*.settings/
+
+# === Java / Logs ===
+*.log
+*.tmp
+*.bak
+
+# === OS / System Files ===
+.DS_Store
+Thumbs.db
+
+# === JavaFX build output ===
+app/build/
+app/out/

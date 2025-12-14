@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="smk.server.ui.ServerDashboardController"
+            prefWidth="1240" prefHeight="770" stylesheets="@/css/smk.css"
+            styleClass="app-root">
+
+    <!-- Sidebar -->
+    <left>
+        <VBox spacing="14" BorderPane.alignment="TOP_LEFT" styleClass="sidebar">
+            <padding><Insets top="22" right="18" bottom="22" left="18"/></padding>
+
+            <Label text="SmartKitchen" styleClass="brand"/>
+            <Separator/>
+
+            <VBox spacing="8" styleClass="card soft">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <Label text="Server Node" styleClass="muted"/>
+                <Label fx:id="lblNode" text="chef-1@localhost:5000" />
+            </VBox>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Circle radius="10" styleClass="status-dot-online"/>
+                <Label text="online" styleClass="status-label"/>
+            </HBox>
+            <Button text="Quit" onAction="#onQuit" styleClass="logout-btn"/>
+        </VBox>
+    </left>
+
+    <!-- Topbar -->
+    <top>
+        <HBox spacing="12" styleClass="topbar">
+            <padding><Insets top="14" right="18" bottom="14" left="18"/></padding>
+
+            <Label text="Lamport:"/>
+            <Label fx:id="lblClock" styleClass="chip"/>
+
+            <Separator orientation="VERTICAL"/>
+
+            <Label text="Queue:"/>
+            <Label fx:id="lblQueueSize" styleClass="chip"/>
+
+            <Separator orientation="VERTICAL"/>
+
+            <Label text="Head:"/>
+            <Label fx:id="lblHead" styleClass="chip"/>
+
+            <Pane HBox.hgrow="ALWAYS"/>
+
+            <!-- Search filter -->
+            <HBox spacing="8" alignment="CENTER_LEFT" styleClass="search-wrap">
+                <Label styleClass="search-icon" text="🔍"/>
+                <TextField fx:id="tfSearch" promptText="Filter by client/dish..." styleClass="search-input" prefWidth="300"/>
+                <Button fx:id="btnClearSearch" text="✕" onAction="#onClearSearch" styleClass="clear-search"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- Main -->
+    <center>
+        <SplitPane dividerPositions="0.62">
+            <items>
+                <!-- Lamport Queue (cards) -->
+                <VBox spacing="10">
+                    <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+                    <Label text="Lamport Queue" styleClass="section"/>
+                    <ListView fx:id="lvQueue" prefHeight="540"/>
+
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button text="Clear Queue" onAction="#onClearQueue" styleClass="ghost"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Right column: stats + logs -->
+                <VBox spacing="14">
+                    <padding><Insets top="16" right="16" bottom="16" left="4"/></padding>
+
+                    <HBox spacing="12">
+                        <VBox spacing="6" styleClass="mini-stat">
+                            <Label text="Workers" styleClass="muted"/>
+                            <Label fx:id="lblWorkers" text="1 / 1" styleClass="stat-num"/>
+                        </VBox>
+                        <VBox spacing="6" styleClass="mini-stat">
+                            <Label text="Throughput (demo)" styleClass="muted"/>
+                            <Label fx:id="lblThroughput" text="~1/min" styleClass="stat-num"/>
+                        </VBox>
+                        <VBox spacing="6" styleClass="mini-stat">
+                            <Label text="Uptime" styleClass="muted"/>
+                            <Label fx:id="lblUptime" text="00:00:00" styleClass="stat-num"/>
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="8" styleClass="card">
+                        <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Logs" styleClass="section"/>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Button text="Clear Logs" onAction="#onClearLogs" styleClass="ghost"/>
+                        </HBox>
+                        <TextArea fx:id="txtLogs" wrapText="true" prefRowCount="18"/>
+                    </VBox>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

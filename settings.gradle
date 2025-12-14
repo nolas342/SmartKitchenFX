@@ -1,0 +1,7 @@
+plugins {
+    // lets Gradle auto-download JDKs if needed (fine to keep)
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+rootProject.name = 'SmartKitchenFX'
+include 'app'
