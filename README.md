@@ -117,14 +117,6 @@ SmartKitchenFX/
 
 ---
 
-## 🎯 Next Steps
-
-* Replace simulation buttons with **real socket communication**.
-* Synchronize Lamport timestamps across clients.
-* Implement **Agrawala REQUEST–REPLY–RELEASE** flow.
-* Persist logs for analysis (CSV/JSON).
-* Add analytics dashboard for timing metrics.
-
 ---
 
 
